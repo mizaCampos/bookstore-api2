@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookstore.bookstoreapi.domain.Categoria;
+import com.bookstore.bookstoreapi.dtos.CategoriaDTO;
 import com.bookstore.bookstoreapi.exceptions.ObjectNotFoundException;
 import com.bookstore.bookstoreapi.repositories.CategoriaRepository;
 

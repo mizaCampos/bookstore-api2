@@ -1,6 +1,8 @@
 package com.bookstore.bookstoreapi.controllers;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.bookstoreapi.domain.Categoria;
+import com.bookstore.bookstoreapi.dtos.CategoriaDTO;
 import com.bookstore.bookstoreapi.service.CategoriaService;
 
 
@@ -29,8 +32,10 @@ public class CategoriaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Categoria>>findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(categoriaService.findAll());
+    public ResponseEntity<List<CategoriaDTO>>findAll(){
+        List<Categoria> list = categoriaService.findAll();
+        List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(listDTO);
     }
     
 }
