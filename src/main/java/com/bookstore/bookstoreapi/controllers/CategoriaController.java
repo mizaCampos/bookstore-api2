@@ -8,7 +8,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.bookstore.bookstoreapi.domain.Categoria;
 import com.bookstore.bookstoreapi.dtos.CategoriaDTO;
+
 import com.bookstore.bookstoreapi.service.CategoriaService;
 
 
@@ -30,7 +33,7 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria>findById(@PathVariable Long id){
+    public ResponseEntity<Categoria>findById(@PathVariable Integer id){
         Categoria obj = categoriaService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(obj);
     }
@@ -53,9 +56,15 @@ public class CategoriaController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaDTO>replace(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO){
+    public ResponseEntity<CategoriaDTO>replace(@PathVariable Integer id, @RequestBody CategoriaDTO categoriaDTO){
         Categoria newObj = categoriaService.replace(id, categoriaDTO);
         return ResponseEntity.ok().body(new CategoriaDTO(newObj));
     }
-    
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void>delete(@PathVariable Integer id){
+        categoriaService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

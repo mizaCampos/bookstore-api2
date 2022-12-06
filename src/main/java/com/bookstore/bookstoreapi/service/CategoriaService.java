@@ -11,6 +11,8 @@ import com.bookstore.bookstoreapi.dtos.CategoriaDTO;
 import com.bookstore.bookstoreapi.exceptions.ObjectNotFoundException;
 import com.bookstore.bookstoreapi.repositories.CategoriaRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CategoriaService {
 
@@ -21,7 +23,7 @@ public class CategoriaService {
         return categoriaRepository.findAll();
     }
 
-    public Categoria findById(Long id) {
+    public Categoria findById(Integer id) {
         Optional<Categoria> obj = categoriaRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! ID: " + id + ", Tipo: " + Categoria.class.getName()));
     }
@@ -31,11 +33,17 @@ public class CategoriaService {
         return categoriaRepository.save(obj);
     }
 
-    public Categoria replace(Long id, CategoriaDTO categoriaDTO) {
+    public Categoria replace(Integer id, CategoriaDTO categoriaDTO) {
         Categoria obj = findById(id);
         obj.setNome(categoriaDTO.getNome());
         obj.setDescricao(categoriaDTO.getDescricao());
         return categoriaRepository.save(obj);
+    }
+
+    @Transactional
+    public void delete(Integer id) {
+        Categoria obj = findById(id);
+        categoriaRepository.delete(obj);
     }
     
 }
