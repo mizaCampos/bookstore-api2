@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +50,12 @@ public class CategoriaController {
         categoriaService.create(categoria);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoriaDTO>replace(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO){
+        Categoria newObj = categoriaService.replace(id, categoriaDTO);
+        return ResponseEntity.ok().body(new CategoriaDTO(newObj));
     }
     
 }
