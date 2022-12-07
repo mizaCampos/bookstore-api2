@@ -16,10 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.bookstore.bookstoreapi.domain.Livro;
 import com.bookstore.bookstoreapi.dtos.LivroDTO;
 import com.bookstore.bookstoreapi.service.LivroService;
+
+import jakarta.servlet.ServletRequest;
+
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController
 @RequestMapping("/livros")
@@ -59,4 +65,12 @@ public class LivroController {
         Livro newObj = livroService.replace(id, livro);
         return ResponseEntity.status(HttpStatus.OK).body(newObj);
     }
+
+    @PostMapping()
+    public ResponseEntity<Livro> create(@RequestBody Livro livro, @RequestParam(value = "categoria", defaultValue = "0")Integer id_categorial) {
+        Livro newObj = livroService.create(id_categorial, livro);
+        URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livros/{id}").buildAndExpand(newObj.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
+    
 }
