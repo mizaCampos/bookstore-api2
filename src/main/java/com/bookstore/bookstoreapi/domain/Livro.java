@@ -36,6 +36,9 @@ public class Livro implements Serializable {
     @EqualsAndHashCode.Exclude
     private String texto;
 
+    @EqualsAndHashCode.Exclude
+    private String nome_autor;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "categoria_id")

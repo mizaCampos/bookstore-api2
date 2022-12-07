@@ -31,4 +31,16 @@ public class LivroService {
        Categoria obj = categoriaService.findById(id_categoria);
        return obj.getLivros();
     }
+
+    public Livro replace(Integer id, Livro obj) {
+        Livro newObj = findById(id);
+        replaceData(newObj, obj);
+        return livroRepository.save(newObj);
+    }
+
+    private void replaceData(Livro newObj, Livro obj){
+        newObj.setTitulo(obj.getTitulo());
+        newObj.setTexto(obj.getTexto());
+        newObj.setNome_autor(obj.getNome_autor());
+    }
 }

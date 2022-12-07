@@ -25,10 +25,12 @@ public class DBService {
         Categoria cat1 = new Categoria(null, "Informatica", "Livros de TI");
 		Categoria cat2 = new Categoria(null, "Engenharia da Informatica", "Livros de TI");
 		Categoria cat3 = new Categoria(null, "Biologia", "Livros Quimica");
-
-		Livro l1 = new Livro(null, "Clean code", "Robert Martin", cat1);
-		Livro l2 = new Livro(null, "Clean code", "Robert Martin", cat2);
-		Livro l3 = new Livro(null, "Clean code", "Robert Martin", cat3);
+ 
+		Livro l1 = new Livro(null, "Clean code","Robert Martin", "Lorem ipsum", cat1);
+		Livro l2 = new Livro(null, "Engenhanria de software","Louis V.", "Lorem ipsum", cat1);
+		Livro l3 = new Livro(null, "The times Machine","H.G. Welss", "Lorem ipsum", cat2);
+		Livro l4 = new Livro(null, "The war of the Wordls","H.G. WElls", "Lorem ipsum", cat2);
+		Livro l5 = new Livro(null, "I, Robot","Isaac Asiimov", "Lorem ipsum", cat2);
 
 		this.categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		this.livroRepository.saveAll(Arrays.asList(l1, l2, l3));
