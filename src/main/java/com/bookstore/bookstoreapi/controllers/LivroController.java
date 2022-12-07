@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,9 +22,11 @@ import com.bookstore.bookstoreapi.domain.Livro;
 import com.bookstore.bookstoreapi.dtos.LivroDTO;
 import com.bookstore.bookstoreapi.service.LivroService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/livros")
 public class LivroController {
@@ -52,19 +55,19 @@ public class LivroController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Livro>replace(@PathVariable(value = "id") Integer id, @RequestBody Livro livro){
+    public ResponseEntity<Livro>replace(@Valid @PathVariable(value = "id") Integer id, @RequestBody Livro livro){
         Livro newObj = livroService.replace(id, livro);
         return ResponseEntity.status(HttpStatus.OK).body(newObj);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Livro>replacePatch(@PathVariable(value = "id") Integer id, @RequestBody Livro livro){
+    public ResponseEntity<Livro>replacePatch(@Valid @PathVariable(value = "id") Integer id, @RequestBody Livro livro){
         Livro newObj = livroService.replace(id, livro);
         return ResponseEntity.status(HttpStatus.OK).body(newObj);
     }
 
     @PostMapping()
-    public ResponseEntity<Livro> create(@RequestBody Livro livro, @RequestParam(value = "categoria", defaultValue = "0")Integer id_categorial) {
+    public ResponseEntity<Livro> create(@Valid @RequestBody Livro livro, @RequestParam(value = "categoria", defaultValue = "0")Integer id_categorial) {
         Livro newObj = livroService.create(id_categorial, livro);
         URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/livros/{id}").buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(uri).build();

@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -24,7 +25,9 @@ import com.bookstore.bookstoreapi.dtos.CategoriaDTO;
 
 import com.bookstore.bookstoreapi.service.CategoriaService;
 
+import jakarta.validation.Valid;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/categorias")
 public class CategoriaController {
@@ -46,7 +49,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria>create(@RequestBody CategoriaDTO categoriaDTO){
+    public ResponseEntity<Categoria>create(@Valid @RequestBody CategoriaDTO categoriaDTO){
 
         var categoria = new Categoria();
         BeanUtils.copyProperties(categoriaDTO, categoria);
@@ -56,7 +59,7 @@ public class CategoriaController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaDTO>replace(@PathVariable Integer id, @RequestBody CategoriaDTO categoriaDTO){
+    public ResponseEntity<CategoriaDTO>replace(@Valid @PathVariable Integer id, @RequestBody CategoriaDTO categoriaDTO){
         Categoria newObj = categoriaService.replace(id, categoriaDTO);
         return ResponseEntity.ok().body(new CategoriaDTO(newObj));
     }
